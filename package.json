@@ -1,8 +1,8 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
+  "name": "a2-christopheryon",
+  "version": "1.0",
+  "description": "Webware Assignment 2",
+  "author": "Christopher Yon",
   "scripts": {
     "start": "node server.improved.js"
   },
