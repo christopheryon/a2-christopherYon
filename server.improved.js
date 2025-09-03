@@ -86,19 +86,38 @@ const handleGet = function (request, response) {
 
 const handlePost = function (request, response) {
     let dataString = ""
+    if (request.url === "/save") {
+        request.on("data", function (data) {
+            dataString += data
+        })
 
-    request.on("data", function (data) {
-        dataString += data
-    })
+        request.on("end", function () {
+            const entry = JSON.parse(dataString)
+            passwordStore.push({
+                id: idCounter,
+                username: entry.username,
+                password: entry.password,
+                strength: calculateStrength(entry.password)
+            })
+            idCounter++
+            response.writeHead(200, "OK", {"Content-Type": "text/plain"})
+            response.end("Submitted successfully")
+        })
+    } else {
+        request.on("data", function (data) {
+            dataString += data
+        })
 
-    request.on("end", function () {
-        console.log(JSON.parse(dataString))
+        request.on("end", function () {
+            console.log(JSON.parse(dataString))
 
-        // ... do something with the data here!!!
+            // ... do something with the data here!!!
 
-        response.writeHead(200, "OK", {"Content-Type": "text/plain"})
-        response.end("test")
-    })
+            response.writeHead(200, "OK", {"Content-Type": "text/plain"})
+            response.end("test")
+        })
+    }
+
 }
 
 const sendFile = function (response, filename) {
