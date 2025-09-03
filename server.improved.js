@@ -86,11 +86,10 @@ const handleGet = function (request, response) {
 
 const handlePost = function (request, response) {
     let dataString = ""
+    request.on("data", function (data) {
+        dataString += data
+    })
     if (request.url === "/save") {
-        request.on("data", function (data) {
-            dataString += data
-        })
-
         request.on("end", function () {
             const entry = JSON.parse(dataString)
             passwordStore.push({
@@ -103,11 +102,22 @@ const handlePost = function (request, response) {
             response.writeHead(200, "OK", {"Content-Type": "text/plain"})
             response.end("Submitted successfully")
         })
-    } else {
-        request.on("data", function (data) {
-            dataString += data
-        })
+    } else if (request.url === "/delete") {
+        request.on("end", function () {
+            const entry = JSON.parse(dataString)
+            const item = passwordStore.findIndex(value => value.id === entry.id)
+            if (item > -1){
+                passwordStore.splice(item,1)
+                response.writeHead(200, "OK", {"Content-Type": "text/plain"})
+                response.end("Deleted successfully")
+            }else {
+                response.writeHead(400, "Bad Request", {"Content-Type": "text/plain"})
+                response.end("Item not found")
+            }
 
+
+        })
+    } else {
         request.on("end", function () {
             console.log(JSON.parse(dataString))
 

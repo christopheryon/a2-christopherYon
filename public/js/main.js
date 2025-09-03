@@ -73,6 +73,18 @@ const createPassword = async (event) => {
 
 }
 
+const deletePassword = async (event, id) => {
+
+    const json = {id: id},
+        body = JSON.stringify(json)
+
+    const response = await fetch("/delete", {
+        method: "POST",
+        body
+    })
+    await createPasswordTable()
+}
+
 const getPasswords = async () => {
     const response = await fetch("/passwords", {
         method: "GET"
@@ -97,6 +109,10 @@ const createPasswordTable = async () => {
         bodyRow.insertCell().innerHTML = arrayElt.username
         bodyRow.insertCell().innerHTML = arrayElt.password
         bodyRow.insertCell().innerHTML = arrayElt.strength
+        const deleteButton = document.createElement("button")
+        deleteButton.onclick = (event) => deletePassword(event, arrayElt.id)
+        deleteButton.innerHTML = "Delete"
+        bodyRow.insertCell().appendChild(deleteButton)
     })
 
     const container = document.getElementById("passwordTableContainer")
