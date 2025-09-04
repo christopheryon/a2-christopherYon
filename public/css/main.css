@@ -2,19 +2,24 @@
     display: flex;
     justify-content: center;
 
-
     table {
         max-width: 80vw;
-        border: 1px solid;
         border-spacing: 0;
         width: 100%;
         min-width: 475px;
+    }
+    th {
+        border-top: 2px
     }
      tr, td, th {
          :not(:has(button)){
              border: 1px solid;
              border-spacing: 0;
-             background-color: gray;
+             background-color: #293C61;
+             input {
+                 color: #0E1C36;
+                 background-color: #C5CFE1;
+             }
          }
          button {
              background-color: white;
@@ -22,6 +27,7 @@
          :nth-child(3){
              border-right-width: 2px;
          }
+         padding: 5px;
     }
     .editButton {
         margin-right: 5px;
@@ -29,3 +35,42 @@
 
 }
 
+.warning {
+    border: 1px solid red;
+    margin-bottom: 10px;
+    max-width: 650px;
+    padding: 10px;
+    p {
+        margin: 0px 10px 0px 5px;
+        color: maroon;
+    }
+    .warningIcon {
+        display: flex;
+        align-items: center;
+        svg{
+            height: 25px;
+            width: 25px;
+            fill:maroon;
+        }
+
+    }
+    background-color: lightcoral;
+    border-radius: 8px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+}
+.warningContainer{
+    display: flex;
+    justify-content: center;
+    margin-bottom: -20px;
+}
+
+.mainContainer{
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+:root {
+    background-color: #0E1C36;
+    color: #C5CFE1;
+}
