@@ -61,11 +61,20 @@ const deletePassword = async (event, id) => {
 
 const editPassword = async (event, id, rowIndex) => {
     const table = /** @type {HTMLTableElement} */ document.getElementById("passwordTable")
-    const row = table.tBodies.item(0).rows[rowIndex]
-    const usernameCell = row.children[0].firstChild
-    const passwordCell = row.children[1].firstChild
-    const editButton = row.children[3].firstChild
-    const deleteButton = row.children[4].firstChild
+    const rows = table.tBodies.item(0).rows
+    const currentRow = rows[rowIndex]
+    for (let i = 0; i < rows.length; i++) {
+        if (i !== rowIndex) {
+            const buttons = rows[i].getElementsByTagName("button")
+            for (const button of buttons) {
+                button.setAttribute("style", "display: none;")
+            }
+        }
+    }
+    const usernameCell = currentRow.children[0].firstChild
+    const passwordCell = currentRow.children[1].firstChild
+    const editButton = currentRow.children[3].firstChild
+    const deleteButton = currentRow.children[4].firstChild
     const newPasswordButton = document.getElementById("newPassword")
     newPasswordButton.setAttribute("style", "display:none")
     const usernameField = document.createElement("input")
@@ -84,6 +93,14 @@ const editPassword = async (event, id, rowIndex) => {
         cancelButton.replaceWith(deleteButton)
         saveButton.replaceWith(editButton)
         newPasswordButton.removeAttribute("style")
+        for (let i = 0; i < rows.length; i++) {
+            if (i !== rowIndex) {
+                const buttons = rows[i].getElementsByTagName("button")
+                for (const button of buttons) {
+                    button.removeAttribute("style")
+                }
+            }
+        }
     }
     const saveButton = document.createElement("button")
     saveButton.innerHTML = "Save"
@@ -100,7 +117,6 @@ const editPassword = async (event, id, rowIndex) => {
     }
     editButton.replaceWith(saveButton)
     deleteButton.replaceWith(cancelButton)
-
 
 
 }
