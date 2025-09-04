@@ -4,6 +4,22 @@
     justify-content: center;
     margin-left: 10vw;
     margin-right: 10vw;
-
+    table {
+        border: 1px solid;
+        border-spacing: 0;
+        min-width: 70vw;
+    }
+     tr, td, th {
+         :not(:has(button)){
+             border: 1px solid;
+             border-spacing: 0;
+         }
+         :nth-child(3){
+             border-right-width: 2px;
+         }
+    }
+    .editButton {
+        margin-right: 5px;
+    }
 }
 

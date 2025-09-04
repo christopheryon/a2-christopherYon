@@ -73,8 +73,8 @@ const editPassword = async (event, id, rowIndex) => {
     }
     const usernameCell = currentRow.children[0].firstChild
     const passwordCell = currentRow.children[1].firstChild
-    const editButton = currentRow.children[3].firstChild
-    const deleteButton = currentRow.children[4].firstChild
+    const editButton = currentRow.children[3].getElementsByClassName("editButton")[0]
+    const deleteButton = currentRow.children[3].getElementsByClassName("deleteButton")[0]
     const newPasswordButton = document.getElementById("newPassword")
     newPasswordButton.setAttribute("style", "display:none")
     const usernameField = document.createElement("input")
@@ -148,11 +148,14 @@ const createPasswordTable = async () => {
         const editButton = document.createElement("button")
         editButton.innerHTML = "Edit"
         editButton.onclick = (event) => editPassword(event, arrayElt.id, index)
-        bodyRow.insertCell().appendChild(editButton)
+        editButton.className = "editButton"
+        const functionCell = bodyRow.insertCell()
+        functionCell.appendChild(editButton)
         const deleteButton = document.createElement("button")
         deleteButton.onclick = (event) => deletePassword(event, arrayElt.id)
         deleteButton.innerHTML = "Delete"
-        bodyRow.insertCell().appendChild(deleteButton)
+        deleteButton.className = "deleteButton"
+        functionCell.appendChild(deleteButton)
     })
 
     const container = document.getElementById("passwordTableContainer")
