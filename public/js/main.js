@@ -66,6 +66,8 @@ const editPassword = async (event, id, rowIndex) => {
     const passwordCell = row.children[1].firstChild
     const editButton = row.children[3].firstChild
     const deleteButton = row.children[4].firstChild
+    const newPasswordButton = document.getElementById("newPassword")
+    newPasswordButton.setAttribute("style", "display:none")
     const usernameField = document.createElement("input")
     usernameField.type = "text"
     usernameField.value = usernameCell.textContent
@@ -81,8 +83,8 @@ const editPassword = async (event, id, rowIndex) => {
         passwordField.replaceWith(passwordCell)
         cancelButton.replaceWith(deleteButton)
         saveButton.replaceWith(editButton)
+        newPasswordButton.removeAttribute("style")
     }
-
     const saveButton = document.createElement("button")
     saveButton.innerHTML = "Save"
     saveButton.onclick = async () => {
@@ -92,6 +94,7 @@ const editPassword = async (event, id, rowIndex) => {
             method: "POST",
             body
         })
+        newPasswordButton.removeAttribute("style")
         await createPasswordTable()
 
     }
