@@ -1,16 +1,24 @@
 #passwordTableContainer {
     display: flex;
     justify-content: center;
-
+    margin-left: -10vw;
+    margin-right: -10vw;
     table {
-        max-width: 80vw;
         border-spacing: 0;
         width: 100%;
         min-width: 475px;
+        margin-left: 100px
     }
     th {
         border-top: 2px
     }
+    tbody {
+        td:nth-child(4) {
+            width: 100px;
+            min-width: 100px;
+        }
+    }
+
      tr, td, th {
          :not(:has(button)){
              border: 1px solid;
@@ -24,9 +32,7 @@
          button {
              background-color: white;
          }
-         :nth-child(3){
-             border-right-width: 2px;
-         }
+
          padding: 5px;
     }
     .editButton {
