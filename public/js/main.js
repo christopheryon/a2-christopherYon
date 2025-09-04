@@ -8,7 +8,14 @@ const savePassword = async (event) => {
         password = document.getElementById("passwordInput"),
         json = {username: username.value, password: password.value},
         body = JSON.stringify(json)
-
+    if (username.value.length===0){
+        alert("You must have a username!")
+        return;
+    }
+    if (password.value.length===0){
+        alert("You must have a password!")
+        return;
+    }
     const response = await fetch("/save", {
         method: "POST",
         body
@@ -28,22 +35,37 @@ const createPassword = async (event) => {
     event.preventDefault()
     const newPasswordButton = document.getElementById("newPassword")
     const table = /** @type {HTMLTableElement} */ document.getElementById("passwordTable")
-    const row = table.tBodies.item(0).insertRow()
-    row.id = "newPasswordRow"
+    const rows = table.rows
+    for (let i = 0; i < rows.length; i++) {
+        const buttons = rows[i].getElementsByTagName("button")
+        for (const button of buttons) {
+            button.setAttribute("style", "opacity: 0;")
+            button.setAttribute("disabled", "")
+        }
+    }
+    const newPasswordRow = table.tBodies.item(0).insertRow()
+    newPasswordRow.id = "newPasswordRow"
     const usernameInput = document.createElement("input")
     usernameInput.id = "usernameInput"
     usernameInput.type = "text"
     const passwordInput = document.createElement("input")
     passwordInput.id = "passwordInput"
     passwordInput.type = "text"
-    row.insertCell().appendChild(usernameInput)
-    row.insertCell().appendChild(passwordInput)
+    newPasswordRow.insertCell().appendChild(usernameInput)
+    newPasswordRow.insertCell().appendChild(passwordInput)
+
     const saveButton = document.createElement("button")
     saveButton.innerHTML = "Save"
     saveButton.id = "saveButton"
     newPasswordButton.replaceWith(saveButton)
     saveButton.onclick = savePassword;
-
+    const cancelButton = document.createElement("button")
+    cancelButton.onclick = async()=> {
+        await createPasswordTable()
+        saveButton.replaceWith(newPasswordButton)
+    }
+    cancelButton.innerHTML="Cancel"
+    newPasswordRow.insertCell().appendChild(cancelButton)
 
 }
 
@@ -105,6 +127,14 @@ const editPassword = async (event, id, rowIndex) => {
     const saveButton = document.createElement("button")
     saveButton.innerHTML = "Save"
     saveButton.onclick = async () => {
+        if (usernameField.value.length===0){
+            alert("You must have a username!")
+            return;
+        }
+        if (passwordField.value.length===0){
+            alert("You must have a password!")
+            return;
+        }
         const json = {id: id, username: usernameField.value, password: passwordField.value},
             body = JSON.stringify(json)
         const response = await fetch("/edit", {
