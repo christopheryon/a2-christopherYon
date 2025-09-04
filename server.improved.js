@@ -102,15 +102,31 @@ const handlePost = function (request, response) {
             response.writeHead(200, "OK", {"Content-Type": "text/plain"})
             response.end("Submitted successfully")
         })
+    } else if (request.url === "/edit") {
+        request.on("end", function () {
+            const entry = JSON.parse(dataString)
+            const item = passwordStore.findIndex(value => value.id === entry.id)
+            if (item > -1) {
+                const record = passwordStore[item]
+                record.username = entry.username
+                record.password = entry.password
+                record.strength = calculateStrength(entry.password)
+                response.writeHead(200, "OK", {"Content-Type": "text/plain"})
+                response.end("Edited successfully")
+            } else {
+                response.writeHead(400, "Bad Request", {"Content-Type": "text/plain"})
+                response.end("Item not found")
+            }
+        })
     } else if (request.url === "/delete") {
         request.on("end", function () {
             const entry = JSON.parse(dataString)
             const item = passwordStore.findIndex(value => value.id === entry.id)
-            if (item > -1){
-                passwordStore.splice(item,1)
+            if (item > -1) {
+                passwordStore.splice(item, 1)
                 response.writeHead(200, "OK", {"Content-Type": "text/plain"})
                 response.end("Deleted successfully")
-            }else {
+            } else {
                 response.writeHead(400, "Bad Request", {"Content-Type": "text/plain"})
                 response.end("Item not found")
             }

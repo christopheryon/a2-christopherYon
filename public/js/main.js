@@ -1,32 +1,6 @@
 // FRONT-END (CLIENT) JAVASCRIPT HERE
 
-const submit = async function (event) {
-    // stop form submission from trying to load
-    // a new .html page for displaying results...
-    // this was the original browser behavior and still
-    // remains to this day
-    event.preventDefault()
-    await createPasswordTable()
-
-    const input = document.querySelector("#yourname"),
-        json = {yourname: input.value},
-        body = JSON.stringify(json)
-
-    const response = await fetch("/submit", {
-        method: "POST",
-        body
-    })
-
-    const text = await response.text()
-
-    console.log("text:", text)
-}
-
 const savePassword = async (event) => {
-    // stop form submission from trying to load
-    // a new .html page for displaying results...
-    // this was the original browser behavior and still
-    // remains to this day
     event.preventDefault()
 
 
@@ -85,6 +59,49 @@ const deletePassword = async (event, id) => {
     await createPasswordTable()
 }
 
+const editPassword = async (event, id, rowIndex) => {
+    const table = /** @type {HTMLTableElement} */ document.getElementById("passwordTable")
+    const row = table.tBodies.item(0).rows[rowIndex]
+    const usernameCell = row.children[0].firstChild
+    const passwordCell = row.children[1].firstChild
+    const editButton = row.children[3].firstChild
+    const deleteButton = row.children[4].firstChild
+    const usernameField = document.createElement("input")
+    usernameField.type = "text"
+    usernameField.value = usernameCell.textContent
+    const passwordField = document.createElement("input")
+    passwordField.type = "text"
+    passwordField.value = passwordCell.textContent
+    usernameCell.replaceWith(usernameField)
+    passwordCell.replaceWith(passwordField)
+    const cancelButton = document.createElement("button")
+    cancelButton.innerHTML = "Cancel"
+    cancelButton.onclick = () => {
+        usernameField.replaceWith(usernameCell)
+        passwordField.replaceWith(passwordCell)
+        cancelButton.replaceWith(deleteButton)
+        saveButton.replaceWith(editButton)
+    }
+
+    const saveButton = document.createElement("button")
+    saveButton.innerHTML = "Save"
+    saveButton.onclick = async () => {
+        const json = {id: id, username: usernameField.value, password: passwordField.value},
+            body = JSON.stringify(json)
+        const response = await fetch("/edit", {
+            method: "POST",
+            body
+        })
+        await createPasswordTable()
+
+    }
+    editButton.replaceWith(saveButton)
+    deleteButton.replaceWith(cancelButton)
+
+
+
+}
+
 const getPasswords = async () => {
     const response = await fetch("/passwords", {
         method: "GET"
@@ -104,11 +121,15 @@ const createPasswordTable = async () => {
     const body = table.createTBody();
     const passwordString = await getPasswords();
     const passwordArray = JSON.parse(passwordString)
-    passwordArray.forEach(arrayElt => {
+    passwordArray.forEach((arrayElt, index) => {
         const bodyRow = body.insertRow()
         bodyRow.insertCell().innerHTML = arrayElt.username
         bodyRow.insertCell().innerHTML = arrayElt.password
         bodyRow.insertCell().innerHTML = arrayElt.strength
+        const editButton = document.createElement("button")
+        editButton.innerHTML = "Edit"
+        editButton.onclick = (event) => editPassword(event, arrayElt.id, index)
+        bodyRow.insertCell().appendChild(editButton)
         const deleteButton = document.createElement("button")
         deleteButton.onclick = (event) => deletePassword(event, arrayElt.id)
         deleteButton.innerHTML = "Delete"
@@ -121,8 +142,6 @@ const createPasswordTable = async () => {
 }
 
 window.onload = async function () {
-    const button = document.getElementById("oldSubmit");
-    button.onclick = submit;
     const newPasswordButton = document.getElementById("newPassword");
     newPasswordButton.onclick = createPassword
     await createPasswordTable()
