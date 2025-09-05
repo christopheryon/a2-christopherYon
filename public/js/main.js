@@ -1,34 +1,21 @@
 // FRONT-END (CLIENT) JAVASCRIPT HERE
 
-const savePassword = async (event) => {
-    event.preventDefault()
-
-
-    const username = document.getElementById("usernameInput"),
-        password = document.getElementById("passwordInput"),
-        json = {username: username.value, password: password.value},
+const savePassword = async (username, password, id = -1) => {
+    const json = {username: username, password: password, id: id},
         body = JSON.stringify(json)
-    if (username.value.length===0){
+    if (username.length === 0) {
         alert("You must have a username!")
-        return;
+        return -1;
     }
-    if (password.value.length===0){
+    if (password.length === 0) {
         alert("You must have a password!")
-        return;
+        return -1;
     }
     const response = await fetch("/save", {
         method: "POST",
         body
     })
-
-    const text = await response.text()
     await createPasswordTable()
-    const newPasswordButton = document.createElement("button")
-    newPasswordButton.innerHTML = "New Password"
-    newPasswordButton.id = "newPassword"
-    newPasswordButton.onclick = createPassword
-    const saveButton = document.getElementById("saveButton")
-    saveButton.replaceWith(newPasswordButton)
 }
 
 const createPassword = async (event) => {
@@ -55,25 +42,30 @@ const createPassword = async (event) => {
     newPasswordRow.insertCell().appendChild(passwordInput)
 
     const saveButton = document.createElement("button")
-    saveButton.innerHTML = "Save"
+    const saveImage = document.createElement("img")
+    saveImage.src = "assets/save.svg"
+    saveButton.appendChild(saveImage)
+    saveButton.append("Save")
     saveButton.id = "saveButton"
     newPasswordButton.replaceWith(saveButton)
-    saveButton.onclick = savePassword;
+    saveButton.onclick = async () => {
+        if (await savePassword(usernameInput.value, passwordInput.value) !== -1){
+            saveButton.replaceWith(newPasswordButton)
+        }
+    };
     const cancelButton = document.createElement("button")
-    cancelButton.onclick = async()=> {
+    cancelButton.onclick = async () => {
         await createPasswordTable()
         saveButton.replaceWith(newPasswordButton)
     }
-    cancelButton.innerHTML="Cancel"
+    cancelButton.innerHTML = "Cancel"
     newPasswordRow.insertCell().appendChild(cancelButton)
 
 }
 
-const deletePassword = async (event, id) => {
-
+const deletePassword = async (id) => {
     const json = {id: id},
         body = JSON.stringify(json)
-
     const response = await fetch("/delete", {
         method: "POST",
         body
@@ -127,17 +119,18 @@ const editPassword = async (event, id, rowIndex) => {
     const saveButton = document.createElement("button")
     saveButton.innerHTML = "Save"
     saveButton.onclick = async () => {
-        if (usernameField.value.length===0){
+        await savePassword(usernameField.value, passwordField.value, id)
+        if (usernameField.value.length === 0) {
             alert("You must have a username!")
             return;
         }
-        if (passwordField.value.length===0){
+        if (passwordField.value.length === 0) {
             alert("You must have a password!")
             return;
         }
         const json = {id: id, username: usernameField.value, password: passwordField.value},
             body = JSON.stringify(json)
-        const response = await fetch("/edit", {
+        const response = await fetch("/save", {
             method: "POST",
             body
         })
@@ -147,8 +140,6 @@ const editPassword = async (event, id, rowIndex) => {
     }
     editButton.replaceWith(saveButton)
     deleteButton.replaceWith(cancelButton)
-
-
 }
 
 const getPasswords = async () => {
@@ -182,7 +173,7 @@ const createPasswordTable = async () => {
         const functionCell = bodyRow.insertCell()
         functionCell.appendChild(editButton)
         const deleteButton = document.createElement("button")
-        deleteButton.onclick = (event) => deletePassword(event, arrayElt.id)
+        deleteButton.onclick = () => deletePassword(arrayElt.id)
         deleteButton.innerHTML = "Delete"
         deleteButton.className = "deleteButton"
         functionCell.appendChild(deleteButton)

@@ -72,7 +72,6 @@ const server = http.createServer(function (request, response) {
 
 const handleGet = function (request, response) {
     const filename = dir + request.url.slice(1)
-
     if (request.url === "/") {
         sendFile(response, "public/index.html")
     } else if (request.url === "/passwords") {
@@ -86,40 +85,37 @@ const handleGet = function (request, response) {
 
 const handlePost = function (request, response) {
     let dataString = ""
-    request.on("data", function (data) {
+    request.on("data", (data) => {
         dataString += data
     })
-    if (request.url === "/save") {
-        request.on("end", function () {
+    request.on("end", () => {
+        if (request.url === "/save") {
             const entry = JSON.parse(dataString)
-            passwordStore.push({
-                id: idCounter,
-                username: entry.username,
-                password: entry.password,
-                strength: calculateStrength(entry.password)
-            })
-            idCounter++
-            response.writeHead(200, "OK", {"Content-Type": "text/plain"})
-            response.end("Submitted successfully")
-        })
-    } else if (request.url === "/edit") {
-        request.on("end", function () {
-            const entry = JSON.parse(dataString)
-            const item = passwordStore.findIndex(value => value.id === entry.id)
-            if (item > -1) {
-                const record = passwordStore[item]
-                record.username = entry.username
-                record.password = entry.password
-                record.strength = calculateStrength(entry.password)
-                response.writeHead(200, "OK", {"Content-Type": "text/plain"})
-                response.end("Edited successfully")
+            if (entry.id > -1) {
+                const item = passwordStore.findIndex(value => value.id === entry.id)
+                if (item > -1) {
+                    const record = passwordStore[item]
+                    record.username = entry.username
+                    record.password = entry.password
+                    record.strength = calculateStrength(entry.password)
+                    response.writeHead(200, "OK", {"Content-Type": "text/plain"})
+                    response.end("Edited successfully")
+                } else {
+                    response.writeHead(400, "Bad Request", {"Content-Type": "text/plain"})
+                    response.end("Item not found")
+                }
             } else {
-                response.writeHead(400, "Bad Request", {"Content-Type": "text/plain"})
-                response.end("Item not found")
+                passwordStore.push({
+                    id: idCounter,
+                    username: entry.username,
+                    password: entry.password,
+                    strength: calculateStrength(entry.password)
+                })
+                idCounter++
+                response.writeHead(200, "OK", {"Content-Type": "text/plain"})
+                response.end("Submitted successfully")
             }
-        })
-    } else if (request.url === "/delete") {
-        request.on("end", function () {
+        } else if (request.url === "/delete") {
             const entry = JSON.parse(dataString)
             const item = passwordStore.findIndex(value => value.id === entry.id)
             if (item > -1) {
@@ -130,20 +126,11 @@ const handlePost = function (request, response) {
                 response.writeHead(400, "Bad Request", {"Content-Type": "text/plain"})
                 response.end("Item not found")
             }
-
-
-        })
-    } else {
-        request.on("end", function () {
-            console.log(JSON.parse(dataString))
-
-            // ... do something with the data here!!!
-
-            response.writeHead(200, "OK", {"Content-Type": "text/plain"})
-            response.end("test")
-        })
-    }
-
+        } else {
+            response.writeHead(400, "Bad Request", {"Content-Type": "text/plain"})
+            response.end("Unsupported endpoint")
+        }
+    })
 }
 
 const sendFile = function (response, filename) {
