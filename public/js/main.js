@@ -40,26 +40,28 @@ const createPassword = async (event) => {
     passwordInput.type = "text"
     newPasswordRow.insertCell().appendChild(usernameInput)
     newPasswordRow.insertCell().appendChild(passwordInput)
+    newPasswordRow.insertCell().append("Make it strong!")
 
     const saveButton = document.createElement("button")
     const saveImage = document.createElement("img")
     saveImage.src = "assets/save.svg"
-    saveButton.appendChild(saveImage)
+    //saveButton.appendChild(saveImage)
     saveButton.append("Save")
     saveButton.id = "saveButton"
-    newPasswordButton.replaceWith(saveButton)
+    saveButton.className="edit-save-button"
+    const functionCell = newPasswordRow.insertCell()
+    functionCell.appendChild(saveButton)
+    newPasswordButton.setAttribute("style", "display: none")
     saveButton.onclick = async () => {
-        if (await savePassword(usernameInput.value, passwordInput.value) !== -1){
-            saveButton.replaceWith(newPasswordButton)
-        }
+        await savePassword(usernameInput.value, passwordInput.value)
     };
     const cancelButton = document.createElement("button")
     cancelButton.onclick = async () => {
         await createPasswordTable()
-        saveButton.replaceWith(newPasswordButton)
+        newPasswordButton.removeAttribute("style")
     }
     cancelButton.innerHTML = "Cancel"
-    newPasswordRow.insertCell().appendChild(cancelButton)
+    functionCell.appendChild(cancelButton)
 
 }
 
@@ -87,7 +89,7 @@ const editPassword = async (event, id, rowIndex) => {
     }
     const usernameCell = currentRow.children[0].firstChild
     const passwordCell = currentRow.children[1].firstChild
-    const editButton = currentRow.children[3].getElementsByClassName("editButton")[0]
+    const editButton = currentRow.children[3].getElementsByClassName("edit-save-button")[0]
     const deleteButton = currentRow.children[3].getElementsByClassName("deleteButton")[0]
     const newPasswordButton = document.getElementById("newPassword")
     newPasswordButton.setAttribute("style", "display:none")
@@ -118,22 +120,9 @@ const editPassword = async (event, id, rowIndex) => {
     }
     const saveButton = document.createElement("button")
     saveButton.innerHTML = "Save"
+    saveButton.className="edit-save-button"
     saveButton.onclick = async () => {
         await savePassword(usernameField.value, passwordField.value, id)
-        if (usernameField.value.length === 0) {
-            alert("You must have a username!")
-            return;
-        }
-        if (passwordField.value.length === 0) {
-            alert("You must have a password!")
-            return;
-        }
-        const json = {id: id, username: usernameField.value, password: passwordField.value},
-            body = JSON.stringify(json)
-        const response = await fetch("/save", {
-            method: "POST",
-            body
-        })
         newPasswordButton.removeAttribute("style")
         await createPasswordTable()
 
@@ -169,7 +158,7 @@ const createPasswordTable = async () => {
         const editButton = document.createElement("button")
         editButton.innerHTML = "Edit"
         editButton.onclick = (event) => editPassword(event, arrayElt.id, index)
-        editButton.className = "editButton"
+        editButton.className = "edit-save-button"
         const functionCell = bodyRow.insertCell()
         functionCell.appendChild(editButton)
         const deleteButton = document.createElement("button")
