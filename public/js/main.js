@@ -48,7 +48,7 @@ const createPassword = async (event) => {
     //saveButton.appendChild(saveImage)
     saveButton.append("Save")
     saveButton.id = "saveButton"
-    saveButton.className="edit-save-button"
+    saveButton.className = "edit-save-button"
     const functionCell = newPasswordRow.insertCell()
     functionCell.appendChild(saveButton)
     newPasswordButton.setAttribute("style", "display: none")
@@ -120,12 +120,11 @@ const editPassword = async (event, id, rowIndex) => {
     }
     const saveButton = document.createElement("button")
     saveButton.innerHTML = "Save"
-    saveButton.className="edit-save-button"
+    saveButton.className = "edit-save-button"
     saveButton.onclick = async () => {
-        await savePassword(usernameField.value, passwordField.value, id)
-        newPasswordButton.removeAttribute("style")
-        await createPasswordTable()
-
+        if (await savePassword(usernameField.value, passwordField.value, id) !== -1) {
+            newPasswordButton.removeAttribute("style")
+        }
     }
     editButton.replaceWith(saveButton)
     deleteButton.replaceWith(cancelButton)
