@@ -91,12 +91,11 @@ const createPassword = async (event) => {
     saveButton.onclick = async (event) => {
         if (await savePassword(event, websiteInput.value, usernameInput.value, passwordInput.value) !== -1) {
             newPasswordButton.removeAttribute("style")
-            unwrap(newPasswordForm)
         }
     };
     const cancelButton = document.createElement("button")
-    cancelButton.onclick = async () => {
-        unwrap(newPasswordForm)
+    cancelButton.onclick = async (event) => {
+        event.preventDefault()
         await createPasswordTable()
         newPasswordButton.removeAttribute("style")
     }
@@ -148,22 +147,10 @@ const editPassword = async (event, id, rowIndex) => {
     passwordCell.replaceWith(passwordField)
     const cancelButton = document.createElement("button")
     cancelButton.innerHTML = "Cancel"
-    cancelButton.onclick = () => {
-        websiteField.replaceWith(websiteCell)
-        usernameField.replaceWith(usernameCell)
-        passwordField.replaceWith(passwordCell)
-        cancelButton.replaceWith(deleteButton)
-        saveButton.replaceWith(editButton)
+    cancelButton.onclick = async (event) => {
+        event.preventDefault()
+        await createPasswordTable()
         newPasswordButton.removeAttribute("style")
-        for (let i = 0; i < rows.length; i++) {
-            if (i !== rowIndex) {
-                const buttons = rows[i].getElementsByTagName("button")
-                for (const button of buttons) {
-                    button.removeAttribute("style")
-                }
-            }
-        }
-        unwrap(editPasswordForm)
     }
     const saveButton = document.createElement("button")
     saveButton.innerHTML = "Save"
@@ -172,7 +159,6 @@ const editPassword = async (event, id, rowIndex) => {
         if (await savePassword(event, websiteField.value, usernameField.value, passwordField.value, id) !== -1) {
             newPasswordButton.removeAttribute("style")
         }
-        unwrap(editPasswordForm)
     }
     const editPasswordForm = document.createElement("form")
     wrap(table, editPasswordForm)
