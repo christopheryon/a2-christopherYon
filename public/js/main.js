@@ -79,9 +79,6 @@ const createPassword = async (event) => {
     const newPasswordForm = document.createElement("form")
     wrap(table, newPasswordForm)
     const saveButton = document.createElement("button")
-    const saveImage = document.createElement("img")
-    saveImage.src = "assets/save.svg"
-    //saveButton.appendChild(saveImage)
     saveButton.append("Save")
     saveButton.id = "saveButton"
     saveButton.className = "edit-save-button"

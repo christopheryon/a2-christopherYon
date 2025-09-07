@@ -156,13 +156,6 @@
     font-family: Fredoka, sans-serif;
 }
 
-#saveButton {
-    img {
-        height: 15px;
-        width: 15px;
-    }
-}
-
 #newPassword {
     position: absolute;
     bottom: 20px;
