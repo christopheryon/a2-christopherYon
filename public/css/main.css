@@ -42,6 +42,11 @@
 
             td:first-child {
                 border-bottom-left-radius: 20px;
+                input {
+                    border-bottom-left-radius: 15px;
+                    padding-left: 5px;
+                    width: 93%;
+                }
             }
 
             td:nth-child(4) {
@@ -73,13 +78,24 @@
         background-color: #CED7F5;
         border: none;
         border-radius: 2px;
+        height: 30px;
+        width: 95%;
+        margin-left: 2%;
+        font-family: inherit;
+        font-size: 100%
     }
+
 
     button {
         border: none;
         color: #030E26;
     }
+    .editPasswordRow{
+        td:has(input){
+            padding: 0;
+        }
 
+    }
     .edit-save-button {
         margin-right: 5px;
     }

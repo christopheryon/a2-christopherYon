@@ -62,7 +62,7 @@ const createPassword = async (event) => {
         }
     }
     const newPasswordRow = table.tBodies.item(0).insertRow()
-    newPasswordRow.id = "newPasswordRow"
+    newPasswordRow.className = "editPasswordRow"
     const websiteInput = document.createElement("input")
     websiteInput.id = "websiteInput"
     websiteInput.type = "text"
@@ -118,6 +118,7 @@ const editPassword = async (event, id, rowIndex) => {
     const table = /** @type {HTMLTableElement} */ document.getElementById("passwordTable")
     const rows = table.tBodies.item(0).rows
     const currentRow = rows[rowIndex]
+    currentRow.className = "editPasswordRow"
     for (let i = 0; i < rows.length; i++) {
         if (i !== rowIndex) {
             const buttons = rows[i].getElementsByTagName("button")
