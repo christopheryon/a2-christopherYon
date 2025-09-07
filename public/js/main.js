@@ -1,6 +1,30 @@
 // FRONT-END (CLIENT) JAVASCRIPT HERE
 
-const savePassword = async (username, password, id = -1) => {
+const wrap = (elements, wrapper) => {
+    if (elements.length) {
+        const firstElement = elements[0]
+        firstElement.parentNode.insertBefore(wrapper, firstElement);
+        for (const element of elements) {
+            if (element !== wrapper) {
+                wrapper.appendChild(element);
+            }
+        }
+    } else {
+        elements.parentNode.insertBefore(wrapper, elements)
+        wrapper.appendChild(elements)
+    }
+}
+
+const unwrap = (wrapper) => {
+    const parent = wrapper.parentNode;
+    while (wrapper.firstChild) {
+        parent.insertBefore(wrapper.firstChild, wrapper);
+    }
+    parent.removeChild(wrapper);
+}
+
+const savePassword = async (event, username, password, id = -1) => {
+    event.preventDefault()
     const json = {username: username, password: password, id: id},
         body = JSON.stringify(json)
     if (username.length === 0) {
@@ -41,7 +65,8 @@ const createPassword = async (event) => {
     newPasswordRow.insertCell().appendChild(usernameInput)
     newPasswordRow.insertCell().appendChild(passwordInput)
     newPasswordRow.insertCell().append("Make it strong!")
-
+    const newPasswordForm = document.createElement("form")
+    wrap(table, newPasswordForm)
     const saveButton = document.createElement("button")
     const saveImage = document.createElement("img")
     saveImage.src = "assets/save.svg"
@@ -52,11 +77,13 @@ const createPassword = async (event) => {
     const functionCell = newPasswordRow.insertCell()
     functionCell.appendChild(saveButton)
     newPasswordButton.setAttribute("style", "display: none")
-    saveButton.onclick = async () => {
-        await savePassword(usernameInput.value, passwordInput.value)
+    saveButton.onclick = async (event) => {
+        await savePassword(event, usernameInput.value, passwordInput.value)
+        unwrap(newPasswordForm)
     };
     const cancelButton = document.createElement("button")
     cancelButton.onclick = async () => {
+        unwrap(newPasswordForm)
         await createPasswordTable()
         newPasswordButton.removeAttribute("style")
     }
@@ -117,15 +144,19 @@ const editPassword = async (event, id, rowIndex) => {
                 }
             }
         }
+        unwrap(editPasswordForm)
     }
     const saveButton = document.createElement("button")
     saveButton.innerHTML = "Save"
     saveButton.className = "edit-save-button"
-    saveButton.onclick = async () => {
-        if (await savePassword(usernameField.value, passwordField.value, id) !== -1) {
+    saveButton.onclick = async (event) => {
+        if (await savePassword(event, usernameField.value, passwordField.value, id) !== -1) {
             newPasswordButton.removeAttribute("style")
         }
+        unwrap(editPasswordForm)
     }
+    const editPasswordForm = document.createElement("form")
+    wrap(table, editPasswordForm)
     editButton.replaceWith(saveButton)
     deleteButton.replaceWith(cancelButton)
 }
