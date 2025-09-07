@@ -49,9 +49,9 @@ const calculateStrength = (password) => {
 }
 
 const passwordStore = [
-    {"id": 1, "username": "mycoolusername", "password": "myverystrongpassword", "strength": ""},
-    {"id": 2, "username": "godofdestruction", "password": "password!", "strength": ""},
-    {"id": 3, "username": "isthistaken", "password": "password1", "strength": ""},
+    {"id": 1, "website":"https://google.com", "username": "mycoolusername", "password": "myverystrongpassword", "strength": ""},
+    {"id": 2, "website":"https://youtube.com","username": "godofdestruction", "password": "password!", "strength": ""},
+    {"id": 3, "website":"https://wpi.edu", "username": "isthistaken", "password": "password1", "strength": ""},
 ]
 
 let idCounter = 4;
@@ -95,6 +95,7 @@ const handlePost = function (request, response) {
                 const item = passwordStore.findIndex(value => value.id === entry.id)
                 if (item > -1) {
                     const record = passwordStore[item]
+                    record.website = entry.website
                     record.username = entry.username
                     record.password = entry.password
                     record.strength = calculateStrength(entry.password)
@@ -107,6 +108,7 @@ const handlePost = function (request, response) {
             } else {
                 passwordStore.push({
                     id: idCounter,
+                    website: entry.website,
                     username: entry.username,
                     password: entry.password,
                     strength: calculateStrength(entry.password)
