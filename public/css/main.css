@@ -42,6 +42,7 @@
 
             td:first-child {
                 border-bottom-left-radius: 20px;
+
                 input {
                     border-bottom-left-radius: 15px;
                     padding-left: 5px;
@@ -83,7 +84,8 @@
         font-family: inherit;
         font-size: 100%
     }
-    input:focus{
+
+    input:focus {
         outline: none;
         box-shadow: 0 0 3px 2px #CED7F5
     }
@@ -93,12 +95,14 @@
         border: none;
         color: #030E26;
     }
-    .editPasswordRow{
-        td:has(input){
+
+    .editPasswordRow {
+        td:has(input) {
             padding: 0;
         }
 
     }
+
     .edit-save-button {
         margin-right: 5px;
     }
@@ -193,16 +197,18 @@ button {
     font-size: 1em;
 }
 
-button:hover{
+button:hover {
     transition: 250ms;
     scale: 115%;
 }
 
-button:active{
+button:active {
     transition: 75ms;
     scale: 100%;
 }
 
-h1{
-    font-weight: 500
+h1 {
+    font-weight: 500;
+    font-size: 27pt;
+    margin-bottom: 7px;
 }
