@@ -74,6 +74,11 @@
         border: 1px solid;
     }
 
+    /* prevent buttons from stacking */
+    td:has(button){
+        min-width: 105px;
+    }
+
     input {
         color: #030E26;
         background-color: #CED7F5;
