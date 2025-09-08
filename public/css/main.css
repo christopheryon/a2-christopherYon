@@ -170,19 +170,18 @@
     width: 100px;
     padding: 0;
     margin: 0;
-    display: grid;
-    grid-template-columns: auto auto;
+    display: flex;
     user-select: none;
 
     #plus {
         font-size: 40pt;
-        margin-top: -14px;
-        margin-right: -5px
+        margin-top: -13px;
+        margin-left: 8px;
     }
 
     #new {
         font-size: 20pt;
-        margin-top: 7px
+        margin-top: 8px
     }
 
 }
