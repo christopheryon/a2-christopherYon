@@ -58,10 +58,10 @@ Deliverables
 6. (5 pts) Modify the README to the specifications below, and delete all of the instructions originally found in this README.
 7. (5 pts) Create and submit a Pull Request to the original repo. Be sure to include your name in the pull request.
 
-Acheivements
+Achievements
 ---
 
-Below are suggested technical and design achievements. You can use these to help customize the assignment to your personal interests. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM. Remember, the highest grade you can get on any individual assignment is a 100%.
+Below are suggested technical and design achievements. You can use these to help customize the assignment to your personal interests. These are recommended achievements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM. Remember, the highest grade you can get on any individual assignment is a 100%.
 
 *Technical*
 - (5 points) Create a single-page app that both provides a form for users to submit data and always shows the current state of the server-side data. To put it another way, when the user submits data, the server should respond sending back the updated data (including the derived field calculated on the server) and the client should then update its data display.
@@ -73,16 +73,16 @@ Below are suggested technical and design achievements. You can use these to help
 
 1. Make sure you start the study by clearly stating the task that you expect your user to accomplish.
 2. You shouldn't provide any verbal instructions on how to use your interface / accomplish the task you give them. Make sure that your interface is clear enough that users can figure it out without any instruction, or provide text instructions from within the interface itself. 
-3. If users get stuck to the point where they give up, you can then provde instruction so that the study can continue, but make sure to discuss this in your README. You won't lose any points for this... all feedback is good feedback!
+3. If users get stuck to the point where they give up, you can then provide instruction so that the study can continue, but make sure to discuss this in your README. You won't lose any points for this... all feedback is good feedback!
 
-You'll need to use sometype of collaborative software that will enable you both to see the test subject's screen and listen to their voice as they describe their thoughts, or conduct the studies in person. After completing each study, briefly (one to two sentences for each question) address the following in your README:
+You'll need to use some type of collaborative software that will enable you both to see the test subject's screen and listen to their voice as they describe their thoughts, or conduct the studies in person. After completing each study, briefly (one to two sentences for each question) address the following in your README:
 
 1. Provide the last name of each student you conduct the evaluation with.
 2. What problems did the user have with your design?
 3. What comments did they make that surprised you?
 4. What would you change about the interface based on their feedback?
 
-*You do not need to actually make changes based on their feedback*. This acheivement is designed to help gain experience testing user interfaces. If you run two user studies, you should answer two sets of questions. 
+*You do not need to actually make changes based on their feedback*. This achievement is designed to help gain experience testing user interfaces. If you run two user studies, you should answer two sets of questions. 
 
 FAQ
 ---
@@ -105,12 +105,16 @@ Yes.
 
 Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
 ---
+Christopher Yon  
+https://a2-christopheryon.onrender.com/
 
-## Your Web Application Title
-Include a very brief summary of your project here. Be sure to include the CSS positioning technique you used, and any required instructions to use your application.
+## Password Manager Prototype
+My project is a single-page password manager application. The main page allows the user to create, edit, and delete password entries that are stored on the server, which calculates password strength in addition to storing passwords. Password entries are displayed in a table, and data entry takes place directly in the cells of the table for a seamless experience. For positioning, I used CSS flexbox in several places, including to vertically center the warning icon in the disclaimer, to manage the "+" and "New" text for the floating button in separate tags while keeping them side by side, and to center the disclaimer on the page. The main content container is also a flexbox with the items vertically stacked and using the default left-alignment as a design choice, with a margin to keep them away from the edge of the viewport.
 
 ## Technical Achievements
-- **Tech Achievement 1**: Using a combination of...
+- **Single-Page Application**: Using a combination of...
+- **Data Modification**: Using a combination of...
+- **Extensive DOM Manipulation**: Using a combination of...
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: 
+- **Design Achievement 1**:
