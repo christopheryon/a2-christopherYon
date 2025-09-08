@@ -15,14 +15,6 @@ const wrap = (elements, wrapper) => {
     }
 }
 
-const unwrap = (wrapper) => {
-    const parent = wrapper.parentNode;
-    while (wrapper.firstChild) {
-        parent.insertBefore(wrapper.firstChild, wrapper);
-    }
-    parent.removeChild(wrapper);
-}
-
 const savePassword = async (event, website, username, password, id = -1) => {
     event.preventDefault()
     const json = {website: website, username: username, password: password, id: id},
