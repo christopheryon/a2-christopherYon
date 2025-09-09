@@ -58,12 +58,15 @@ const createPassword = async (event) => {
     const websiteInput = document.createElement("input")
     websiteInput.id = "websiteInput"
     websiteInput.type = "text"
+    websiteInput.spellcheck = false
     const usernameInput = document.createElement("input")
     usernameInput.id = "usernameInput"
     usernameInput.type = "text"
+    usernameInput.spellcheck = false
     const passwordInput = document.createElement("input")
     passwordInput.id = "passwordInput"
     passwordInput.type = "text"
+    passwordInput.spellcheck = false
     newPasswordRow.insertCell().appendChild(websiteInput)
     newPasswordRow.insertCell().appendChild(usernameInput)
     newPasswordRow.insertCell().appendChild(passwordInput)
@@ -126,12 +129,15 @@ const editPassword = async (event, id, rowIndex) => {
     const websiteField = document.createElement("input")
     websiteField.type = "text"
     websiteField.value = websiteCell.textContent
+    websiteField.spellcheck = false
     const usernameField = document.createElement("input")
     usernameField.type = "text"
     usernameField.value = usernameCell.textContent
+    usernameField.spellcheck = false
     const passwordField = document.createElement("input")
     passwordField.type = "text"
     passwordField.value = passwordCell.textContent
+    passwordField.spellcheck = false
     websiteCell.replaceWith(websiteField)
     usernameCell.replaceWith(usernameField)
     passwordCell.replaceWith(passwordField)
