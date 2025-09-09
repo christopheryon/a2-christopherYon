@@ -197,7 +197,7 @@
 }
 
 button {
-    transition: 100ms;
+    transition: 75ms;
     background-color: #9DB8F2;
     color: #030E26;
     border: none;
@@ -207,7 +207,7 @@ button {
 }
 
 button:hover {
-    transition: 250ms;
+    transition: 100ms;
     scale: 115%;
 }
 
