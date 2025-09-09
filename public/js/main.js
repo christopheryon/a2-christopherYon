@@ -70,7 +70,9 @@ const createPassword = async (event) => {
     newPasswordRow.insertCell().appendChild(websiteInput)
     newPasswordRow.insertCell().appendChild(usernameInput)
     newPasswordRow.insertCell().appendChild(passwordInput)
-    newPasswordRow.insertCell().append("Make it strong!")
+    const strengthCell = newPasswordRow.insertCell()
+    strengthCell.append("Make it strong!")
+    strengthCell.className="strengthCell"
     const newPasswordForm = document.createElement("form")
     wrap(table, newPasswordForm)
     const saveButton = document.createElement("button")
@@ -92,6 +94,7 @@ const createPassword = async (event) => {
         newPasswordButton.removeAttribute("style")
     }
     cancelButton.innerHTML = "Cancel"
+    cancelButton.className = "delete-cancel-button"
     functionCell.appendChild(cancelButton)
 
 }
@@ -123,7 +126,7 @@ const editPassword = async (event, id, rowIndex) => {
     const usernameCell = currentRow.children[1].firstChild
     const passwordCell = currentRow.children[2].firstChild
     const editButton = currentRow.children[4].getElementsByClassName("edit-save-button")[0]
-    const deleteButton = currentRow.children[4].getElementsByClassName("deleteButton")[0]
+    const deleteButton = currentRow.children[4].getElementsByClassName("delete-cancel-button")[0]
     const newPasswordButton = document.getElementById("newPassword")
     newPasswordButton.setAttribute("style", "display:none")
     const websiteField = document.createElement("input")
@@ -148,6 +151,7 @@ const editPassword = async (event, id, rowIndex) => {
         await createPasswordTable()
         newPasswordButton.removeAttribute("style")
     }
+    cancelButton.className = "delete-cancel-button"
     const saveButton = document.createElement("button")
     saveButton.innerHTML = "Save"
     saveButton.className = "edit-save-button"
@@ -183,10 +187,15 @@ const createPasswordTable = async () => {
     const passwordArray = JSON.parse(passwordString)
     passwordArray.forEach((arrayElt, index) => {
         const bodyRow = body.insertRow()
-        bodyRow.insertCell().innerHTML = arrayElt.website
-        bodyRow.insertCell().innerHTML = arrayElt.username
-        bodyRow.insertCell().innerHTML = arrayElt.password
-        bodyRow.insertCell().innerHTML = arrayElt.strength
+        const websiteCell = bodyRow.insertCell()
+        websiteCell.innerHTML = arrayElt.website
+        const userCell = bodyRow.insertCell()
+        userCell.innerHTML = arrayElt.username
+        const passwordCell = bodyRow.insertCell()
+        passwordCell.innerHTML = arrayElt.password
+        const strengthCell = bodyRow.insertCell()
+        strengthCell.innerHTML = arrayElt.strength
+        strengthCell.className = "strengthCell"
         const editButton = document.createElement("button")
         editButton.innerHTML = "Edit"
         editButton.onclick = (event) => editPassword(event, arrayElt.id, index)
@@ -196,7 +205,7 @@ const createPasswordTable = async () => {
         const deleteButton = document.createElement("button")
         deleteButton.onclick = () => deletePassword(arrayElt.id)
         deleteButton.innerHTML = "Delete"
-        deleteButton.className = "deleteButton"
+        deleteButton.className = "delete-cancel-button"
         functionCell.appendChild(deleteButton)
     })
 

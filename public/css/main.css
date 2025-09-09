@@ -65,7 +65,8 @@
     }
 
     td {
-        max-width: 20vw;
+        width: 20%;
+        max-width: 0;
         overflow: scroll;
         padding: 10px;
     }
@@ -76,7 +77,7 @@
 
     /* prevent buttons from stacking */
     td:has(button){
-        min-width: 105px;
+        white-space: nowrap;
     }
 
     input {
@@ -110,6 +111,15 @@
 
     .edit-save-button {
         margin-right: 5px;
+        width: 50px;
+    }
+    .delete-cancel-button{
+        width: 60px;
+    }
+
+    .strengthCell {
+        width: 15%;
+        white-space: nowrap;
     }
 
 }
